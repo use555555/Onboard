@@ -95,7 +95,7 @@ class App:
 class Triangle:
 
     def __init__(self, shader):
-        # x,y,z,r,g,b
+        # x,y,z,r,g,b,s,t
         self.vertices = (
             -0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0,
              0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
