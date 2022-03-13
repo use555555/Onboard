@@ -29,7 +29,7 @@ class App:
         glUniform1i(glGetUniformLocation(self.shader, "imageTexture"), 0)
         # Sending 1 integer to uniform location and setting sampler to 0
 
-        self.triangle = Triangle(self.shader)
+        self.triangle = Triangle()
         self.mainloop()
 
     # Create shader to run drawing
@@ -87,7 +87,7 @@ class App:
 
 class Triangle:
 
-    def __init__(self, shader):
+    def __init__(self):
         # x,y,z,r,g,b
         self.vertices = (
             -0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
