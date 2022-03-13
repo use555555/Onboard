@@ -17,7 +17,7 @@ class Bezier:
         self.vertexCount = totalSteps
         color = ( 1.0, 0.0, 0.0 )
         pointsArray = np.array( pointsCoordinate )
-        pointsArray = np.reshape(pointsArray, ((np.shape(pointsArray)[0] // 2), 2))
+        pointsArray = np.reshape( pointsArray, ( ( np.shape( pointsArray )[ 0 ] // 2 ), 2 ) )
 
         for step in range( 0, totalSteps, 1 ):
             t = step/totalSteps
@@ -29,11 +29,11 @@ class Bezier:
             while interpolationTimes > 0:
 
                 # Interpolation Calculation
-                interpolatedPoints = (1 - t) * PointBefore + t * PointAfter
+                interpolatedPoints = ( 1 - t ) * PointBefore + t * PointAfter
 
                 # Save data for the next iteration
-                PointBefore = np.delete(interpolatedPoints, -1, axis=0)
-                PointAfter = np.delete(interpolatedPoints, 0, axis=0)
+                PointBefore = np.delete( interpolatedPoints, -1, axis=0 )
+                PointAfter = np.delete( interpolatedPoints, 0, axis=0 )
                 interpolationTimes -= 1
 
                 # Set vertices from last iteration
@@ -53,7 +53,7 @@ class Bezier:
         glEnableVertexAttribArray( 0 )
         glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 24, ctypes.c_void_p( 0 ) )
 
-        glEnableVertexAttribArray(1)
+        glEnableVertexAttribArray( 1 )
         glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 24, ctypes.c_void_p( 12 ) )
 
     def destroy(self):
