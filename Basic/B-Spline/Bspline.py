@@ -4,10 +4,11 @@ import numpy as np
 
 class Bspline:
 
-    def __init__( self, pointsCoordinate, totalSteps, mode ):
+    def __init__( self, pointsCoordinate, totalSteps, mode, degree ):
         ''' pointsCoordinate = Coordinate for points for creating Bspline line (x1, y1, x2, y2, ...)
             totalSteps       = Number of step used in vertices calculation
             mode             = For setting open(True) or close(False) loop
+            degree           = Degree of the b-spline curve
             Out = Vertex data to use in shader
         '''
 
@@ -24,14 +25,14 @@ class Bspline:
         pointsArray = np.transpose( pointsArray )
 
         # Create knot vector
-        knotVectorAmount = self.pointCount + 3
+        knotVectorAmount = self.pointCount + degree + 1
         knotVector = []
         if mode:
-            for i in range( 0, 2, 1 ):
+            for i in range( 0, degree, 1 ):
                 knotVector.append( 0 )
             for i in range( 0, knotVectorAmount-4, 1 ):
                 knotVector.append( i )
-            for i in range( 0, 2, 1 ):
+            for i in range( 0, degree, 1 ):
                 knotVector.append( max( knotVector ) )
         else:
             for i in range( 0, knotVectorAmount, 1 ):
@@ -53,11 +54,11 @@ class Bspline:
             finishedBasisFunction = []
 
             # Calculation for the basis function
-            for sample in range(0, len( basisFunction )-2, 1):
-                basisCalculation = basisFunction[ sample:sample+3 ]
+            for sample in range(0, len( basisFunction )-degree, 1):
+                basisCalculation = basisFunction[ sample:sample+degree+1 ]
                 j = 1
                 calculatedBasisFunction = []
-                while j<3:
+                while j<degree+1:
                     for i in range( 0, len( basisCalculation ) - 1, 1 ):
                         knotIndex = i + sample
                         if knotVector[ knotIndex+j ] - knotVector[ knotIndex ] == 0:
@@ -73,7 +74,6 @@ class Bspline:
                     calculatedBasisFunction = []
                     j += 1
                 finishedBasisFunction.append( basisCalculation[ 0 ] )
-
             # Find vertices from b-spline equation
             coordinate = pointsArray * finishedBasisFunction
             self.vertices += ( sum( coordinate[ 0 ] ), sum( coordinate[ 1 ] ), 0.0 )

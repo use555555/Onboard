@@ -19,10 +19,16 @@ class App:
         #                    0.0, 0.5,
         #                    0.5, 0.0)
 
-        self.coordinate = ( -0.5, 0.0,
-                           0.0, 0.5,
-                           0.5, 0.0,
-                           0.0, -0.5 )
+        self.coordinate = (-0.5, 0.0,
+                            0.0, 0.5,
+                            0.5, 0.0,
+                            0.0, -0.5,
+                            0.2, 0.1,
+                           -0.2, -0.1,
+                           -0.2, 0.1 )
+
+        self.mode = True
+        self.degree = 2
 
         self.resolution = 1000
         ################################################
@@ -42,7 +48,7 @@ class App:
 
         glUniform1i(glGetUniformLocation(self.shader, "imageTexture"), 0)
         # Sending 1 integer to uniform location and setting sampler to 0
-        self.bezierStart = Bspline( self.coordinate, self.resolution, False )
+        self.bezierStart = Bspline( self.coordinate, self.resolution, self.mode, self.degree )
         self.mainloop()
 
     # Create shader to run drawing
