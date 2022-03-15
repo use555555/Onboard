@@ -21,11 +21,8 @@ class App:
 
         self.coordinate = (-0.5, 0.0,
                             0.0, 0.5,
-                            0.5, 0.0,
                             0.0, -0.5,
-                            0.2, 0.1,
-                           -0.2, -0.1,
-                           -0.2, 0.1 )
+                            0.5, 0.0 )
 
         self.mode = True
         self.degree = 2
