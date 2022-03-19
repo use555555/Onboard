@@ -25,7 +25,7 @@ class App:
                             0.5, 0.0 )
 
         self.mode = True
-        self.degree = 2
+        self.degree = 3
 
         self.resolution = 1000
         ################################################

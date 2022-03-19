@@ -30,7 +30,7 @@ class Bspline:
         if mode:
             for i in range( 0, degree, 1 ):
                 knotVector.append( 0 )
-            for i in range( 0, knotVectorAmount-4, 1 ):
+            for i in range( 0, knotVectorAmount-(2*degree), 1 ):
                 knotVector.append( i )
             for i in range( 0, degree, 1 ):
                 knotVector.append( max( knotVector ) )
