@@ -13,7 +13,6 @@ def callback(widget):
             windowGL.collectingData = 1
         elif windowGL.collectingData != 0:
             windowGL.collectingData = 0
-            windowGL.redraw()
         print( windowGL.collectingData )
 
     if (widget == clearButton):
@@ -33,7 +32,7 @@ class MyWindow(Fl_Gl_Window):
 
         #####################################################################
     def draw(self):
-        if len( self.coordinate ) >= 4 and self.collectingData == 0:
+        if len( self.coordinate ) >= 4:
             self.shader = self.createShader( "shaders/vertex.txt", "shaders/fragment.txt" )
             glUseProgram(self.shader)
 
@@ -72,6 +71,7 @@ class MyWindow(Fl_Gl_Window):
             if self.collectingData == 1:
                 self.coordinate += ( Fl.event_x(), self.height - Fl.event_y() )
                 print(self.coordinate)
+                self.redraw()
             return 1
         else:
             return Fl_Gl_Window.handle(self, event)
