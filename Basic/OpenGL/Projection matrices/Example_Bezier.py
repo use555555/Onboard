@@ -1,7 +1,9 @@
 import pygame as pg
 from OpenGL.GL import *
 from OpenGL.GL.shaders import compileProgram,compileShader
-from Bspline import Bspline
+from Bezier import Bezier
+import pyrr
+import numpy as np
 
 
 class App:
@@ -12,20 +14,17 @@ class App:
         self.width = 640
         self.height = 480
 
-        # self.coordinate = (-0.5, 0.0,
-        #                    0.0, 0.0)
+        # Full window curve
+        # self.coordinate = ( 0, 240,
+        #                     320, 480,
+        #                     320, 0,
+        #                     640, 240 )
 
-        # self.coordinate = (-0.5, 0.0,
-        #                    0.0, 0.5,
-        #                    0.5, 0.0)
-
-        self.coordinate = (-0.5, 0.0,
-                            0.0, 0.5,
-                            0.0, -0.5,
-                            0.5, 0.0 )
-
-        self.mode = True
-        self.degree = 2
+        # Half window curve
+        self.coordinate = ( 160, 240,
+                            320, 360,
+                            320, 120,
+                            480, 240 )
 
         self.resolution = 1000
         ################################################
@@ -34,7 +33,7 @@ class App:
         pg.display.set_mode((self.width, self.height), pg.OPENGL | pg.DOUBLEBUF)
         # initialize OpenGL
         self.clock = pg.time.Clock()
-        glClearColor(0.1, 0.2, 0.2, 1)  # Color when clear
+        glClearColor( 0.1, 0.2, 0.2, 1 )  # Color when clear
 
         # Enable alpha transparency
         glEnable(GL_BLEND)
@@ -43,7 +42,17 @@ class App:
         self.shader = self.create_shader("shaders/vertex.txt", "shaders/fragment.txt")
         glUseProgram(self.shader)  # Initialize shader
 
-        self.bspline = Bspline( self.coordinate, self.resolution, self.mode, self.degree )
+        # Creating projection matrix
+        projectionTransform = pyrr.matrix44.create_orthogonal_projection_matrix( 0.0, self.width, 0.0, self.height, 0.1, 100, np.float32 )
+        # Send the projection matrix to be use in shader
+        glUniformMatrix4fv( glGetUniformLocation( self.shader, "projection" ), 1, GL_FALSE, projectionTransform )
+
+        # Creating model matrix
+        modelTransform = pyrr.matrix44.create_from_translation( pyrr.Vector3( [ 0.0, 0.0, -1.0 ] ) )
+        # Send the model matrix to be use in shader
+        glUniformMatrix4fv( glGetUniformLocation( self.shader, "model" ), 1, GL_FALSE, modelTransform )
+
+        self.bezierStart = Bezier( self.coordinate, self.resolution )
         self.mainloop()
 
     # Create shader to run drawing
@@ -80,10 +89,10 @@ class App:
 
             # Draw shape
             glUseProgram(self.shader)
-            glBindVertexArray(self.bspline.vao)
+            glBindVertexArray(self.bezierStart.vao)
 
             # Draw data from array
-            glDrawArrays(GL_LINE_STRIP, 0, self.bspline.vertexCount)
+            glDrawArrays(GL_LINE_STRIP, 0, self.bezierStart.vertexCount)
             # glDrawArrays(shape, initial point, number of point to draw)
 
             pg.display.flip()  # Update pygame
@@ -94,7 +103,7 @@ class App:
         self.quit()
 
     def quit(self):
-        self.bspline.destroy()
+        self.bezierStart.destroy()
         glDeleteProgram(self.shader)
         pg.quit()
 

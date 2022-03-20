@@ -30,8 +30,6 @@ class App:
         self.shader = self.create_shader("shaders/vertex.txt", "shaders/fragment.txt")
         glUseProgram(self.shader)  # Initialize shader
 
-        glUniform1i(glGetUniformLocation(self.shader, "imageTexture"), 0)
-        # Sending 1 integer to uniform location and setting sampler to 0
         self.Circle = Circle( self.coordinate, self.resolution, ( self.width, self.height ) )
         self.mainloop()
 
