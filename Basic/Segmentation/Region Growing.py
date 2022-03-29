@@ -62,5 +62,5 @@ img = Image.open( 'test.png' )
 seeds = [ Point( 110, 401 ), Point( 366, 159 ), Point( 712, 374 ) ]
 binaryImg = regionGrow( img, seeds, 10, 1 )
 img.show()
-binary = Image.fromarray(binaryImg)
+binary = Image.fromarray( binaryImg )
 binary.show()
