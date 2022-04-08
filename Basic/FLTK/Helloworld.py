@@ -50,7 +50,7 @@ TimeStamp = time.time()
 
 
 # Show the window and enter the FLTK event loop
-# window.end()
+window.end()
 window.show(sys.argv)
 while Fl.check() > 0:
     # print(scroll.children())
