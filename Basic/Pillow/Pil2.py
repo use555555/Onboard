@@ -43,12 +43,12 @@ draw.text( ( 0, 0 ), 'Hello Everyone', fill = ( 0, 255, 0 ), font = font)
 Me.save( 'Draw/Me_drawtext.jpeg' )
 Me.show()
 
-# Changing orientation using transpose
 Me = Image.open( 'Me.jpeg' )
 width, height = Me.size
 print( width, height )
 
-Rot = Me.transpose( Image.FLIP_TOP_BOTTOM )
+# Changing orientation using transpose
+Rot = Me.transpose( Image.ROTATE_90 )
 
 Rot.save( 'Draw/Me_draw3.jpeg' )
 Rot.show()

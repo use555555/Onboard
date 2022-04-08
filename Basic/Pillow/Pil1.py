@@ -11,10 +11,10 @@ for f in os.listdir( '.' ):
         fn, fext = os.path.splitext( f )
 
         i.thumbnail(size_700)
-        i.save('700/{}_700.{}'.format(fn, fext))
+        i.save('700/{}_700{}'.format(fn, fext))
 
         i.thumbnail( size_300 )
-        i.save( '300/{}_300.{}'.format( fn, fext ) )
+        i.save( '300/{}_300{}'.format( fn, fext ) )
 
 # Rotate picture
 Me = Image.open( 'Me.jpeg' )

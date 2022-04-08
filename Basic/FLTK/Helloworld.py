@@ -2,8 +2,15 @@ from fltk import *
 import sys
 import time
 
+def callBack(widget):
+    if widget == SButton:
+        if scroll.children() > 1:
+            scroll.clear()
+    pass
+
+
 # Define window size
-window = Fl_Window( 580, 280 )
+window = Fl_Window( 780, 280 )
 WindowColor = 0
 # Set the color of the window
 window.color( WindowColor )
@@ -26,12 +33,23 @@ Input.textsize( 30 )
 Output = Fl_Output( 300, 160, 260, 100 )
 Output.textsize( 30 )
 
+SButton = Fl_Button(  580, 0, 200, 100, "Test"  )
+SButton.labelsize( 24 )
+SButton.labelfont( FL_BOLD+FL_ITALIC )
+SButton.labeltype( FL_SHADOW_LABEL )
+SButton.callback(callBack)
+
+scroll = Fl_Scroll( 580, 0, 200, 556 )
+
+scroll.add(SButton)
+
 TimeStamp = time.time()
 
 # Show the window and enter the FLTK event loop
-window.end()
+# window.end()
 window.show(sys.argv)
 while Fl.check() > 0:
+    print(scroll.children())
     if Button.value():
         if Input.value() == "Mom is here":
             if time.time() - TimeStamp >= 1/30:
