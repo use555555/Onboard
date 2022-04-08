@@ -6,6 +6,7 @@ def callBack(widget):
     if widget == SButton:
         if scroll.children() > 1:
             scroll.clear()
+            window.redraw()
     pass
 
 
